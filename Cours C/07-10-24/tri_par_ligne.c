@@ -50,14 +50,34 @@ void AfficheMatrice(int *tab, int taille)
     }
 }
 
+
+void transpose(int *tab, int n){
+
+    int tmp;
+    for(int i = 1; i < n ; i++){
+
+        for(int j = 0; j < i ; j++){
+
+            tmp = tab[i*n+j];
+            tab[i*n+j] = tab[j*n+i];
+            tab[j*n+i] = tmp;
+
+        }
+    }
+
+}
+
 void main (){
 
-    int tab[] = {5, 1, 5, 7, 9, -5, 4, 15, -65, 14, 56,12,14,-7,15,12};
-    AfficheMatrice(tab,4);
+    int tab[] = {5, 1, 5, 7, 9, 4 , 4,8 , 3, 4, 6,2,4,7,5,2};
+    //AfficheMatrice(tab,4);
     printf("\n");
-    tri_ligne(tab, 4, 4);
+    //tri_ligne(tab, 4, 4);
     //tritab(tab,16);
-    Echanger2Lignes(tab, 4,4, 1, 3);
+    //Echanger2Lignes(tab, 4,4, 1, 3);
+    AfficheMatrice(tab, 4);
+    printf("\n");
+    transpose(tab, 4);
     AfficheMatrice(tab, 4);
 
 }
