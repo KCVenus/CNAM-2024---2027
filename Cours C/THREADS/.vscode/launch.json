@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/arthu/Documents/CNAM 2024 - 2027/Cours C/26-11-2024",
-      "program": "c:/Users/arthu/Documents/CNAM 2024 - 2027/Cours C/26-11-2024/build/Debug/outDebug",
+      "cwd": "c:/Users/arthu/Documents/CNAM 2024 - 2027/Cours C/THREADS",
+      "program": "c:/Users/arthu/Documents/CNAM 2024 - 2027/Cours C/THREADS/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
