@@ -54,22 +54,37 @@ void ppgp(struct noeud *r){
     }
 }
  
-struct noeud *supprime_noeud(struct noeud *r, struct noeud *supp) {
-    struct noeud *pere = NULL;
-
-    if (r == NULL || supp == NULL) {
-        return 0;                             // si c'est vide ( null ) on stop 
+struct noeud *supprime_noeud(struct noeud *r, int val) {
+    if (r == NULL) {
+        return NULL;
     }
-
-    if (r->fg->val == supp->val || r->fd->val == supp->val) {
-        pere = r;                            // on stock le parent dans la variable pere
+    if (val < r->val) {
+        r->fg = supprime_noeud(r->fg, val);
+    } else if (val > r->val) {
+        r->fd = supprime_noeud(r->fd, val);
     } else {
-        supprime_noeud(r->fg, supp);
-        supprime_noeud(r->fd, supp);
+        if (r->fg == NULL && r->fd == NULL) {
+            free(r);
+            return NULL;
+        } else if (r->fg == NULL) {
+            struct noeud *temp = r->fd;
+            free(r);
+            return temp;
+        } else if (r->fd == NULL) {
+            struct noeud *temp = r->fg;
+            free(r);
+            return temp;
+        } else {
+            struct noeud *successeur = r->fd;
+            while (successeur->fg != NULL) {
+                successeur = successeur->fg;
+            }
+            r->val = successeur->val;
+            r->fd = supprime_noeud(r->fd, successeur->val);
+        }
     }
-    return pere;
+    return r;
 }
-
 
 int main(){
 
@@ -84,6 +99,25 @@ int main(){
     r = ajout(r , 4);
     r = ajout(r , 20);
     parent = supprime_noeud(r, e);
-    // ppgp(r);
     printf("%d ", parent->val);
 }
+int main() {
+    struct noeud *r = NULL;
+
+    // Création de l'arbre
+    r = ajout(r, 33);
+    r = ajout(r, 17);
+    r = ajout(r, 9);
+    r = ajout(r, 4);
+    r = ajout(r, 20);
+
+    printf("Arbre avant suppression : ");
+    afficher_inordre(r);
+    printf("\n");
+
+    // Suppression d'un nœud
+    r = supprime_noeud(r, 17);
+
+    printf("Arbre après suppression : ");
+    afficher_inordre(r);
+    printf("\n");

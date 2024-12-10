@@ -6,7 +6,6 @@ struct noeud {
     struct noeud *fg, *fd;
 };
 
-// Fonction pour ajouter un élément dans l'arbre binaire (ton implémentation existante)
 struct noeud *ajout(struct noeud *r, int e) {
     struct noeud *ptr;
     if (r != NULL) {
@@ -42,7 +41,6 @@ struct noeud *ajout(struct noeud *r, int e) {
     }
 }
 
-// Fonction pour afficher l'arbre en pré-ordre
 void ppgp(struct noeud *r) {
     if (r != NULL) {
         printf("%d ", r->val);
@@ -51,81 +49,66 @@ void ppgp(struct noeud *r) {
     }
 }
 
-// Fonction pour supprimer un nœud directement
 struct noeud *supprime_noeud(struct noeud *r, struct noeud *supp) {
     if (r == NULL || supp == NULL) {
-        return r; // Rien à faire si l'arbre est vide ou le nœud à supprimer est NULL
+        return r; 
     }
-
     if (supp->val < r->val) {
-        // Le nœud à supprimer est dans le sous-arbre gauche
         r->fg = supprime_noeud(r->fg, supp);
     } else if (supp->val > r->val) {
-        // Le nœud à supprimer est dans le sous-arbre droit
         r->fd = supprime_noeud(r->fd, supp);
     } else {
-        // Le nœud à supprimer est trouvé
-        if (r->fg == NULL && r->fd == NULL) {
-            // Cas 1 : le nœud est une feuille
+        if (r->fg == NULL && r->fd == NULL) {       // Cas 1  le noeud est une feuille
             free(r);
             return NULL;
-        } else if (r->fg == NULL) {
-            // Cas 2 : le nœud n'a qu'un fils droit
+        } else if (r->fg == NULL) {                  // Cas 2 le noeud a 1 fils droit
             struct noeud *temp = r->fd;
             free(r);
             return temp;
-        } else if (r->fd == NULL) {
-            // Cas 2 : le nœud n'a qu'un fils gauche
+        } else if (r->fd == NULL) {                  // Cas 2  le noeud a 1 fils gauche
             struct noeud *temp = r->fg;
             free(r);
             return temp;
-        } else {
-            // Cas 3 : le nœud a deux enfants
+        } else {                                      // Cas 3 le noeud a 2 enfants
             struct noeud *successeur = r->fd;
             while (successeur->fg != NULL) {
-                successeur = successeur->fg; // Trouver le plus petit nœud du sous-arbre droit
+                successeur = successeur->fg;            // Trouver le plus petit noeud du sous-arbre droit
             }
-            r->val = successeur->val; // Remplacer la valeur du nœud à supprimer
-            r->fd = supprime_noeud(r->fd, successeur); // Supprimer le successeur
+            r->val = successeur->val; 
+            r->fd = supprime_noeud(r->fd, successeur);  // on zigouille le + petit
         }
     }
     return r;
 }
 
-// Fonction pour rechercher un nœud dans l'arbre
-struct noeud *rechercher(struct noeud *r, int val) {
+struct noeud *recherche_neoud(struct noeud *r, int val) {
     if (r == NULL || r->val == val) {
         return r;
     }
     if (val < r->val) {
-        return rechercher(r->fg, val);
+        return recherche_neoud(r->fg, val);
     }
-    return rechercher(r->fd, val);
+    return recherche_neoud(r->fd, val);
 }
 
 int main() {
     struct noeud *r = NULL;
 
-    // Création de l'arbre
     r = ajout(r, 33);
     r = ajout(r, 17);
     r = ajout(r, 9);
     r = ajout(r, 4);
     r = ajout(r, 20);
 
-    printf("Arbre avant suppression (pré-ordre) : ");
+    printf("Arbre de depart: ");
     ppgp(r);
     printf("\n");
 
-    // Recherche du nœud à supprimer
-    struct noeud *a_supprimer = rechercher(r, 33);
+    struct noeud *a_supp = recherche_neoud(r, 33);
+    r = supprime_noeud(r, a_supp);
 
-    // Suppression du nœud
-    r = supprime_noeud(r, a_supprimer);
-
-    printf("Arbre après suppression (pré-ordre) : ");
+    printf("Arbre après  supp :");
     ppgp(r);
     printf("\n");
 
-    return 0;
 }
