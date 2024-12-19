@@ -26,3 +26,4 @@ int main(int argc, char* argv[]){
     pthread_set_cd("/ici/la");
     printf("Mon répertoire courant est %s\n" pthread_get_cd());
 }
+
