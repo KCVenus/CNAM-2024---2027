@@ -31,6 +31,7 @@ def main():
     dessinerSignal(t)
     echantillonnage(12)
     echantillonnage(6)
+    echantillonnage(3)
     
     
 if __name__ == "__main__":
